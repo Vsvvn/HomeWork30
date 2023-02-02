@@ -11,4 +11,5 @@ public interface RecipeService {
     Optional<Recipe> edit(Long id, Recipe recipe);
     Optional<Recipe> delete(Long id);
     Map<Long, Recipe> getAll();
+    byte[] export();
 }

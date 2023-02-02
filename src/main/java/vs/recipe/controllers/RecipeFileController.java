@@ -64,23 +64,4 @@ public class RecipeFileController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-
-    @GetMapping(value = "/download")
-    @Operation(
-            summary = "Скачать все рецепты txt file"
-    )
-    public ResponseEntity<InputStreamResource> downLoadFile() throws FileNotFoundException {
-        File file = recipeFileService.getDataFile();
-
-        if (file.exists()) {
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-            return ResponseEntity.ok().
-                    contentType(MediaType.TEXT_PLAIN).
-                    contentLength(file.length()).
-                    header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"RecipeLog.txt\"").
-                    body(resource);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
-    }
 }

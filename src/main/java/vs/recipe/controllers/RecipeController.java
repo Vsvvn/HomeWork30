@@ -2,6 +2,8 @@ package vs.recipe.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vs.recipe.model.Recipe;
@@ -62,5 +64,21 @@ public class RecipeController {
     )
     public Map<Long, Recipe> getAllRecipes() {
         return recipeService.getAll();
+    }
+
+    @GetMapping(value = "/download")
+    @Operation(
+            summary = "Скачать все рецепты в формате txt"
+    )
+    public ResponseEntity<byte[]> downloadExport() {
+        byte[] data = recipeService.export();
+        if (data == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok()
+                .contentLength(data.length)
+                .contentType(MediaType.TEXT_PLAIN)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"recipe.txt\"")
+                .body(data);
     }
 }

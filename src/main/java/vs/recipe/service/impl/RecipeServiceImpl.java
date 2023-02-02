@@ -75,4 +75,12 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RuntimeException(e);
         }
     }
+
+    public byte[] export() {
+        StringBuilder stringBuilder=new StringBuilder();
+        for (Recipe recipe:recipes.values()){
+            stringBuilder.append(recipe).append("\n").append("***********").append("\n");
+        }
+        return stringBuilder.toString().getBytes();
+    }
 }
